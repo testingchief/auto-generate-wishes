@@ -10,7 +10,6 @@ import sys
 search_query = sys.argv[1]
 UNSPLASH_ACCESS_KEY = sys.argv[2]
 USER_NAME = sys.argv[3]
-SLACK_BOT_TOKEN = sys.argv[4]
 project_path = os.path.normpath('')
 
 # get random image download link from Unsplash based on given string
