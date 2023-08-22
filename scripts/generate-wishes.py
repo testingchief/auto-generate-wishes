@@ -45,9 +45,9 @@ def get_wrapped_text(text: str, font: ImageFont.ImageFont,
 
 # write text to downloaded image
 font_ttf = os.path.join(data_path, 'The California.ttf')
-font_size = 75
+font_size = 100
 if len(text_to_write)>70:
-     font_size = 60
+     font_size = 90
 font_x_pos = 60
 font_y_pos = 50
 font_bg_x_pos = 59
@@ -66,7 +66,7 @@ image.thumbnail((1024,1024), Image.LANCZOS)
 draw_image = ImageDraw.Draw(image)
 image_font = ImageFont.truetype(font_ttf,font_size)
 
-draw_image.text((font_bg_x_pos,font_bg_y_pos), get_wrapped_text(text_to_write, image_font, 400), fill=font_bgcolor, font=image_font)
-draw_image.text((font_x_pos,font_y_pos), get_wrapped_text(text_to_write, image_font, 400), fill=font_color, font=image_font)
+draw_image.text((font_bg_x_pos,font_bg_y_pos), get_wrapped_text(text_to_write, image_font, 500), fill=font_bgcolor, font=image_font)
+draw_image.text((font_x_pos,font_y_pos), get_wrapped_text(text_to_write, image_font, 500), fill=font_color, font=image_font)
 
 image.save(final_image)
