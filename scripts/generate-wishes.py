@@ -62,7 +62,7 @@ font_bgcolor = "#FFFF33" #yellow
 
 final_image = os.path.join(images_path, 'wish.png')
 image = Image.open(temp_image)
-image.thumbnail((500,500), Image.LANCZOS)
+image.thumbnail((1024,1024), Image.LANCZOS)
 draw_image = ImageDraw.Draw(image)
 image_font = ImageFont.truetype(font_ttf,font_size)
 
