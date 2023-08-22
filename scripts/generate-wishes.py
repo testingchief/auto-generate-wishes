@@ -6,7 +6,6 @@ import os
 import pandas as pd
 from PIL import Image, ImageFont, ImageDraw
 import sys
-from slack_sdk import WebClient
 
 search_query = sys.argv[1]
 UNSPLASH_ACCESS_KEY = sys.argv[2]
