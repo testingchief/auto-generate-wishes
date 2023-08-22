@@ -19,18 +19,14 @@ photos = pu.photos(type_='random', count=1, featured=True, orientation='landscap
 print(photo.id, photo.link_download)
 
 # download required image from unsplash
-images_path = project_path + '/images/'
-files = glob.glob(images_path+"*")
-for f in files:
-    os.remove(f)
-
+images_path = os.path.join(project_path, 'images')
 response = requests.get(photo.link_download, allow_redirects=True)
-temp_image = images_path + (photo.id) + '_temp.png'
+temp_image = os.path.join(images_path, (photo.id)+'_temp.png')
 open(temp_image, 'wb').write(response.content)
 
 # get random birthday message
-data_path = project_path + '/data/'
-df = pd.read_csv(data_path + 'birthday_msg.csv')
+data_path = os.path.join(project_path, 'data')
+df = pd.read_csv(os.path.join(data_path, 'birthday_msg.csv'))
 text_to_write = df.loc[df.sample().index, 'birthday_msg'].to_numpy()[0]
 print(text_to_write)
 
@@ -48,7 +44,7 @@ def get_wrapped_text(text: str, font: ImageFont.ImageFont,
         return '\n'.join(lines)
 
 # write text to downloaded image
-font_ttf = data_path + 'The California.ttf'
+font_ttf = os.path.join(data_path, 'The California.ttf')
 font_size = 75
 if len(text_to_write)>70:
      font_size = 60
@@ -64,7 +60,7 @@ font_bgcolor = "#FFFF33" #yellow
 # font_color = "#ffffff" #white
 # font_bgcolor = "#333BFF" #black
 
-final_image = images_path + (photo.id) + '.png'
+final_image = os.path.join(images_path,  (photo.id)+'.png')
 image = Image.open(temp_image)
 image.thumbnail((500,500), Image.LANCZOS)
 draw_image = ImageDraw.Draw(image)
