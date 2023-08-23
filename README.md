@@ -5,7 +5,9 @@
 Fetch a random image from Unsplash using a search query and add custom text to the image.
 
 To run the script, run this command.
-> python3 scripts/generate-wishes.py 'birthday' 'UNSPLASH_KEY' 'SENDER_NAME'
+> python3 scripts/generate-wishes.py 'birthday' 'UNSPLASH_KEY' 'SENDER_NAME' ' '
+
+> python3 scripts/generate-wishes.py 'anniversary' 'UNSPLASH_KEY' 'SENDER_NAME' 'Happy anniversary!!!'
 
 ![Auto Generated Image](https://github.com/testingchief/auto-generate-wishes/blob/main/images/wish.png?raw=true)
 
@@ -15,10 +17,13 @@ Sample Pipeline Script
 - Add text to the downloaded image
 - Upload to Slack
   
-> pipeline {
+```
+ pipeline {
     agent any
     parameters {
-        string defaultValue: 'Siva Ganesan', description: 'Sender name', name: 'SENDER', trim: true
+        string defaultValue: 'Testing Chief', description: 'Sender name', name: 'SENDER', trim: true
+        string defaultValue: 'birthday', description: 'Search query', name: 'SEARCH', trim: true
+        string defaultValue: ' ', description: 'Custom message', name: 'MESSAGE'
     }
     stages {
         stage('git') {
@@ -33,7 +38,7 @@ Sample Pipeline Script
         }
         stage('generate-image') {
             steps {
-                sh "python3 scripts/generate-wishes.py 'birthday' '${params.UNSPLASH_KEY}' '${params.SENDER}'"
+                sh "python3 scripts/generate-wishes.py '${params.SEARCH}' '${params.UNSPLASH_KEY}' '${params.SENDER}' '${params.MESSAGE}'"
             }
         } 
         stage('upload-image-to-slack') {
@@ -43,3 +48,4 @@ Sample Pipeline Script
         }
     }
 }
+```
