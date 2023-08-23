@@ -10,6 +10,7 @@ import sys
 search_query = sys.argv[1]
 UNSPLASH_ACCESS_KEY = sys.argv[2]
 USER_NAME = sys.argv[3]
+CUSTOM_MESSAGE = sys.argv[4]
 project_path = os.path.normpath('')
 
 # get random image download link from Unsplash based on given string
@@ -26,9 +27,10 @@ open(temp_image, 'wb').write(response.content)
 
 # get random birthday message
 data_path = os.path.join(project_path, 'data')
-df = pd.read_csv(os.path.join(data_path, 'birthday_msg.csv'))
-text_to_write = df.loc[df.sample().index, 'birthday_msg'].to_numpy()[0]
-print(text_to_write)
+if CUSTOM_MESSAGE == ' ':
+    df = pd.read_csv(os.path.join(data_path, search_query + '.csv'))
+    CUSTOM_MESSAGE = df.loc[df.sample().index, 'message'].to_numpy()[0]
+    print(CUSTOM_MESSAGE)
 
 # reusable method to get wrapped text
 def get_wrapped_text(text: str, font: ImageFont.ImageFont,
@@ -46,7 +48,7 @@ def get_wrapped_text(text: str, font: ImageFont.ImageFont,
 # write text to downloaded image
 font_ttf = os.path.join(data_path, 'The California.ttf')
 font_size = 100
-if len(text_to_write)>70:
+if len(CUSTOM_MESSAGE)>70:
      font_size = 90
 font_x_pos = 60
 font_y_pos = 50
@@ -63,10 +65,11 @@ font_bgcolor = "#FFFF33" #yellow
 final_image = os.path.join(images_path, 'wish.png')
 image = Image.open(temp_image)
 image.thumbnail((1024,1024), Image.LANCZOS)
+w, h = image.size
 draw_image = ImageDraw.Draw(image)
 image_font = ImageFont.truetype(font_ttf,font_size)
 
-draw_image.text((font_bg_x_pos,font_bg_y_pos), get_wrapped_text(text_to_write, image_font, 500), fill=font_bgcolor, font=image_font)
-draw_image.text((font_x_pos,font_y_pos), get_wrapped_text(text_to_write, image_font, 500), fill=font_color, font=image_font)
+draw_image.text((font_bg_x_pos,font_bg_y_pos), get_wrapped_text(CUSTOM_MESSAGE, image_font, w-font_x_pos), fill=font_bgcolor, font=image_font)
+draw_image.text((font_x_pos,font_y_pos), get_wrapped_text(CUSTOM_MESSAGE, image_font, w-60), fill=font_color, font=image_font)
 
 image.save(final_image)
