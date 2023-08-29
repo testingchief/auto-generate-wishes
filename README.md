@@ -5,7 +5,7 @@
 Fetch a random image from Unsplash using a search query and add custom text to the image.
 
 To run the script, run this command.
-> python3 scripts/generate-wishes.py 'birthday' 'UNSPLASH_KEY' 'SENDER_NAME' ' '
+> python3 scripts/generate-wishes.py 'birthday' 'UNSPLASH_KEY' 'SENDER_NAME' 'birthday.csv'
 
 > python3 scripts/generate-wishes.py 'anniversary' 'UNSPLASH_KEY' 'SENDER_NAME' 'Happy anniversary!!!'
 
