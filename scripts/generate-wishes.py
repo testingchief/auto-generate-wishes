@@ -28,14 +28,12 @@ open(temp_image, 'wb').write(response.content)
 
 # get random birthday message
 data_path = os.path.join(project_path, 'data')
-if CUSTOM_MESSAGE == ' ':
-    df = pd.read_csv(os.path.join(data_path, search_query + '.csv'))
+if '.csv' in CUSTOM_MESSAGE:
+    df = pd.read_csv(os.path.join(data_path, CUSTOM_MESSAGE))
     CUSTOM_MESSAGE = df.loc[df.sample().index, 'message'].to_numpy()[0]
     print(CUSTOM_MESSAGE)
 
 # reusable method to get wrapped text
-
-
 def get_wrapped_text(text: str, font: ImageFont.ImageFont,
                      line_length: int):
     lines = ['']
@@ -54,10 +52,10 @@ font_ttf = os.path.join(data_path, 'The California.ttf')
 font_size = 100
 if len(CUSTOM_MESSAGE) > 70:
     font_size = 90
-font_x_pos = 60
-font_y_pos = 50
-font_bg_x_pos = 59
-font_bg_y_pos = 49
+font_x_pos = 80
+font_y_pos = 80
+font_bg_x_pos = 79
+font_bg_y_pos = 79
 
 font_color = "#000000"  # black
 # font_bgcolor = "#9133FF" #purple
@@ -68,15 +66,16 @@ font_bgcolor = "#FFFF33"  # yellow
 
 final_image = os.path.join(images_path, 'wish.png')
 image = Image.open(temp_image)
-image.thumbnail((1024, 1024), Image.LANCZOS)
+image.thumbnail((720, 1024), Image.LANCZOS)
 w, h = image.size
 draw_image = ImageDraw.Draw(image)
 image_font = ImageFont.truetype(font_ttf, font_size)
+image_font = ImageFont.truetype(font_ttf, font_size+5)
 
 draw_image.text((font_bg_x_pos, font_bg_y_pos), get_wrapped_text(
-    CUSTOM_MESSAGE, image_font, w-font_x_pos), fill=font_bgcolor, font=image_font)
+    CUSTOM_MESSAGE, image_font, w-100), fill=font_bgcolor, font=image_font)
 draw_image.text((font_x_pos, font_y_pos), get_wrapped_text(
-    CUSTOM_MESSAGE, image_font, w-60), fill=font_color, font=image_font)
+    CUSTOM_MESSAGE, image_font, w-100), fill=font_color, font=image_font)
 
 # add brand
 brand = "@testingchief"
