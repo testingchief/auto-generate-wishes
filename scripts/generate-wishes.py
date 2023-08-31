@@ -54,28 +54,33 @@ if len(CUSTOM_MESSAGE) > 70:
     font_size = 90
 font_x_pos = 80
 font_y_pos = 80
-font_bg_x_pos = 79
-font_bg_y_pos = 79
-
-font_color = "#000000"  # black
-# font_bgcolor = "#9133FF" #purple
-font_bgcolor = "#FFFF33"  # yellow
-
-# font_color = "#ffffff" #white
-# font_bgcolor = "#333BFF" #black
+font_color = "white"
+font_bgcolor = "black"
 
 final_image = os.path.join(images_path, 'wish.png')
 image = Image.open(temp_image)
 image.thumbnail((720, 1024), Image.LANCZOS)
 w, h = image.size
+
 draw_image = ImageDraw.Draw(image)
 image_font = ImageFont.truetype(font_ttf, font_size)
-image_font = ImageFont.truetype(font_ttf, font_size+5)
+image_bgfont = ImageFont.truetype(font_ttf, font_size+1)
 
-draw_image.text((font_bg_x_pos, font_bg_y_pos), get_wrapped_text(
-    CUSTOM_MESSAGE, image_font, w-100), fill=font_bgcolor, font=image_font)
-draw_image.text((font_x_pos, font_y_pos), get_wrapped_text(
-    CUSTOM_MESSAGE, image_font, w-100), fill=font_color, font=image_font)
+# thin border
+# draw_image.text((font_x_pos-1, font_y_pos), get_wrapped_text(CUSTOM_MESSAGE, image_font, w-100), font=image_font, fill=font_bgcolor)
+# draw_image.text((font_x_pos+1, font_y_pos), get_wrapped_text(CUSTOM_MESSAGE, image_font, w-100), font=image_font, fill=font_bgcolor)
+# draw_image.text((font_x_pos, font_y_pos-1), get_wrapped_text(CUSTOM_MESSAGE, image_font, w-100), font=image_font, fill=font_bgcolor)
+# draw_image.text((font_x_pos, font_y_pos+1), get_wrapped_text(CUSTOM_MESSAGE, image_font, w-100), font=image_font, fill=font_bgcolor)
+
+# thicker border
+draw_image.text((font_x_pos-2, font_y_pos-2), get_wrapped_text(CUSTOM_MESSAGE, image_bgfont, w-100), font=image_font, fill=font_bgcolor)
+draw_image.text((font_x_pos+2, font_y_pos-2), get_wrapped_text(CUSTOM_MESSAGE, image_bgfont, w-100), font=image_font, fill=font_bgcolor)
+draw_image.text((font_x_pos-2, font_y_pos+2), get_wrapped_text(CUSTOM_MESSAGE, image_bgfont, w-100), font=image_font, fill=font_bgcolor)
+draw_image.text((font_x_pos+2, font_y_pos+2), get_wrapped_text(CUSTOM_MESSAGE, image_bgfont, w-100), font=image_font, fill=font_bgcolor)
+
+# add text
+draw_image.text((font_x_pos, font_y_pos), get_wrapped_text(CUSTOM_MESSAGE, image_font, w-100), font=image_font, fill=font_color)
+
 
 # add brand
 brand = "@testingchief"
