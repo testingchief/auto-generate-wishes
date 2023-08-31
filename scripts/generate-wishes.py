@@ -6,11 +6,16 @@ import os
 import pandas as pd
 from PIL import Image, ImageFont, ImageDraw
 import sys
+import openai
 
 search_query = sys.argv[1]
 UNSPLASH_ACCESS_KEY = sys.argv[2]
 USER_NAME = sys.argv[3]
 CUSTOM_MESSAGE = sys.argv[4]
+try:
+    OPEN_AI_KEY = sys.argv[5]
+except:
+    OPEN_AI_KEY = ""
 project_path = os.path.normpath('')
 
 # get random image download link from Unsplash based on given string
@@ -26,11 +31,24 @@ response = requests.get(photo.link_download, allow_redirects=True)
 temp_image = os.path.join(images_path, 'img_temp.png')
 open(temp_image, 'wb').write(response.content)
 
+# openai function
+def get_completion(prompt):
+    openai.api_key = OPEN_AI_KEY
+    model="gpt-3.5-turbo"
+    messages = [{"role": "user", "content": prompt}]
+    response = openai.ChatCompletion.create(model=model, messages=messages, temperature=0)
+    return response.choices[0].message["content"]
+
 # get random birthday message
 data_path = os.path.join(project_path, 'data')
 if '.csv' in CUSTOM_MESSAGE:
     df = pd.read_csv(os.path.join(data_path, CUSTOM_MESSAGE))
     CUSTOM_MESSAGE = df.loc[df.sample().index, 'message'].to_numpy()[0]
+    print(CUSTOM_MESSAGE)
+elif 'openai' in CUSTOM_MESSAGE:
+    message = CUSTOM_MESSAGE.replace('openai ', '')
+    prompt = "generate an " + message + " wish in about 70 characters. make it enthusiastic and formal. do not add any emojis."
+    CUSTOM_MESSAGE = get_completion(prompt)
     print(CUSTOM_MESSAGE)
 
 # reusable method to get wrapped text
