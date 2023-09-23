@@ -66,10 +66,10 @@ def get_wrapped_text(text: str, font: ImageFont.ImageFont,
 
 
 # write text to downloaded image
-font_ttf = os.path.join(data_path, 'The California.ttf')
-font_size = 100
+font_ttf = os.path.join(data_path, 'Hey August.ttf')
+font_size = 75
 if len(CUSTOM_MESSAGE) > 70:
-    font_size = 90
+    font_size = 55
 font_x_pos = 80
 font_y_pos = 80
 font_color = "white"
@@ -82,7 +82,7 @@ w, h = image.size
 
 draw_image = ImageDraw.Draw(image)
 image_font = ImageFont.truetype(font_ttf, font_size)
-image_bgfont = ImageFont.truetype(font_ttf, font_size+1)
+image_bgfont = ImageFont.truetype(font_ttf, font_size)
 
 # thin border
 # draw_image.text((font_x_pos-1, font_y_pos), get_wrapped_text(CUSTOM_MESSAGE, image_font, w-100), font=image_font, fill=font_bgcolor)
